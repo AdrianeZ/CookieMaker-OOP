@@ -1,8 +1,9 @@
 const express = require('express');
 
 class ConfiguratorRouter {
-    constructor(cmapp) {
-        this.cmapp = cmapp;
+    constructor(utils,data) {
+        this.utils = utils;
+        this.data = data;
         this.router = express.Router();
         this.setUpRoutes();
     }
@@ -16,8 +17,8 @@ class ConfiguratorRouter {
     selectBase = (req, res) => {
         const {baseName} = req.params;
 
-        if (!this.cmapp.data.COOKIE_BASES[baseName]) {
-            return this.cmapp.showErrorPage(res, `There is no such base as ${baseName}.`);
+        if (!this.data.COOKIE_BASES[baseName]) {
+            return this.utils.showErrorPage(res, `There is no such base as ${baseName}.`);
         }
 
         res
@@ -30,14 +31,14 @@ class ConfiguratorRouter {
     addAddon = (req, res) => {
         const {addonName} = req.params;
 
-        if (!this.cmapp.data.COOKIE_ADDONS[addonName]) {
-            return this.cmapp.showErrorPage(res, `There is no such addon as ${addonName}.`);
+        if (!this.data.COOKIE_ADDONS[addonName]) {
+            return this.utils.showErrorPage(res, `There is no such addon as ${addonName}.`);
         }
 
-        const addons = this.cmapp.getAddonsFromReq(req);
+        const addons = this.utils.getAddonsFromReq(req);
 
         if (addons.includes(addonName)) {
-            return this.cmapp.showErrorPage(res, `${addonName} is already on your cookie. You cannot add it twice.`);
+            return this.utils.showErrorPage(res, `${addonName} is already on your cookie. You cannot add it twice.`);
         }
 
         addons.push(addonName);
@@ -52,10 +53,10 @@ class ConfiguratorRouter {
     deleteAddon = (req, res) => {
         const {addonName} = req.params;
 
-        const oldAddons = this.cmapp.getAddonsFromReq(req);
+        const oldAddons = this.utils.getAddonsFromReq(req);
 
         if (!oldAddons.includes(addonName)) {
-            return this.cmapp.showErrorPage(res, `Cannot delete something that isn't already added to the cookie. ${addonName} not found on cookie.`);
+            return this.utils.showErrorPage(res, `Cannot delete something that isn't already added to the cookie. ${addonName} not found on cookie.`);
         }
 
         const addons = oldAddons.filter(addon => addon !== addonName);

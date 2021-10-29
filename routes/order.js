@@ -1,8 +1,8 @@
 const express = require('express');
 
 class OrderRouter {
-    constructor(cmapp) {
-        this.cmapp = cmapp;
+    constructor(utils) {
+        this.utils = utils;
         this.router = express.Router();
         this.setUpRoutes();
     }
@@ -13,7 +13,7 @@ class OrderRouter {
     }
 
     sumary = (req, res) => {
-        const {sum, addons, base, allBases, allAddons} = this.cmapp.getCookieSettings(req);
+        const {sum, addons, base, allBases, allAddons} = this.utils.getCookieSettings(req);
 
         res.render('order/summary', {
             cookie: {
@@ -27,7 +27,7 @@ class OrderRouter {
     };
 
     thanks = (req, res) => {
-        const {sum} = this.cmapp.getCookieSettings(req);
+        const {sum} = this.utils.getCookieSettings(req);
 
         res
             .clearCookie('cookieBase')
