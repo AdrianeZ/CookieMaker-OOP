@@ -36,7 +36,7 @@ class CookieMakerApp
   _setRoutes()
   {
     this.app.use('/', new HomeRouter(this.utils).router);
-    this.app.use('/configurator', new ConfiguratorRouter(this.utils, this.data).router);
+    this.app.use('/configurator', new ConfiguratorRouter(this.utils).router);
     this.app.use('/order', new OrderRouter(this.utils).router);
   }
 

@@ -1,9 +1,8 @@
 const express = require('express');
 
 class ConfiguratorRouter {
-    constructor(utils,data) {
+    constructor(utils) {
         this.utils = utils;
-        this.data = data;
         this.router = express.Router();
         this.setUpRoutes();
     }
@@ -17,7 +16,7 @@ class ConfiguratorRouter {
     selectBase = (req, res) => {
         const {baseName} = req.params;
 
-        if (!this.data.COOKIE_BASES[baseName]) {
+        if (!this.utils.data.COOKIE_BASES[baseName]) {
             return this.utils.showErrorPage(res, `There is no such base as ${baseName}.`);
         }
 
@@ -31,7 +30,7 @@ class ConfiguratorRouter {
     addAddon = (req, res) => {
         const {addonName} = req.params;
 
-        if (!this.data.COOKIE_ADDONS[addonName]) {
+        if (!this.utils.data.COOKIE_ADDONS[addonName]) {
             return this.utils.showErrorPage(res, `There is no such addon as ${addonName}.`);
         }
 
